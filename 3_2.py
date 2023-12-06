@@ -32,6 +32,21 @@ def list_number_to_int(list_number):
         int += digit * 10 ** (len(list_number) - index - 1)
     return int
 
+def add_number_to_gear_map(map, gear_map, number, x, y, number_was_at_border=False):
+    if number_was_at_border:
+            symbol_positions = check_symbol_is_around(map, x-len(number)+1, x, y)
+    else:
+        symbol_positions = check_symbol_is_around(map, x-len(number), x-1, y)
+    if symbol_positions:
+        for symbol_position in symbol_positions: 
+            x_symb, y_symb = symbol_position
+            try:
+                gear_map[y_symb][x_symb].append(list_number_to_int(number))
+            except KeyError:
+                gear_map[y_symb] = collections.defaultdict(list)
+                gear_map[y_symb][x_symb].append(list_number_to_int(number))
+    return gear_map
+
 def sum_all_connecting_parts(input):
     map = Map(input)
     gear_map = collections.defaultdict(collections.defaultdict)
@@ -43,27 +58,11 @@ def sum_all_connecting_parts(input):
             if char in one_to_nine:
                 number.append(int(char))
             elif number:
-                symbol_positions = check_symbol_is_around(map.map, x-len(number), x-1, y)
-                if symbol_positions:
-                    for symbol_position in symbol_positions: 
-                        x_symb, y_symb = symbol_position
-                        try:
-                            gear_map[y_symb][x_symb].append(list_number_to_int(number))
-                        except KeyError:
-                            gear_map[y_symb] = collections.defaultdict(list)
-                            gear_map[y_symb][x_symb].append(list_number_to_int(number))
+                gear_map = add_number_to_gear_map(map.map, gear_map, number, x, y)
                 number = []
 
         if number :
-            symbol_positions = check_symbol_is_around(map.map, x-len(number)+1, x, y)
-            if symbol_positions:
-                for symbol_position in symbol_positions: 
-                    x_symb, y_symb = symbol_position
-                    try:
-                        gear_map[y_symb][x_symb].append(list_number_to_int(number))
-                    except KeyError:
-                        gear_map[y_symb] = collections.defaultdict(list)
-                        gear_map[y_symb][x_symb].append(list_number_to_int(number))
+            gear_map = add_number_to_gear_map(map.map, gear_map, number, x, y, number_was_at_border=True)
             number = []
 
     for y, x_values in gear_map.items():
