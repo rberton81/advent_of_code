@@ -3,6 +3,7 @@ from utils import read_input
 example = read_input("./2_example.txt")
 input = read_input("./2_input.txt")
 
+
 def check_games(input, config):
     game_ids_sum = 0
     for string in input:
@@ -19,11 +20,12 @@ def check_games(input, config):
 
                 if int(value) > config[color]:
                     game_is_valid = False
-        
+
         if game_is_valid:
             game_ids_sum += int(game_id)
 
     return game_ids_sum
+
 
 CONFIG = {
     "red": 12,
@@ -31,6 +33,6 @@ CONFIG = {
     "blue": 14,
 }
 
-assert(check_games(example, CONFIG) == 8)
+assert check_games(example, CONFIG) == 8
 
-print('solution', check_games(input, CONFIG))
+print("solution", check_games(input, CONFIG))

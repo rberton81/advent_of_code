@@ -1,19 +1,21 @@
 import collections
 
+
 class Directions:
     LEFT = "left"
     RIGHT = "right"
 
+
 STRING_TO_DIGIT = {
-    "one":1,
-    "two":2,
-    "three":3,
-    "four":4,
-    "five":5,
-    "six":6,
-    "seven":7,
-    "eight":8,
-    "nine":9,
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
 }
 
 
@@ -21,22 +23,24 @@ def read_input(path):
     with open(path) as file:
         lines = file.readlines()
         return [line.rstrip("\n") for line in lines]
-   
+
+
 STRING_TO_DIGIT = {
-    "one":1,
-    "two":2,
-    "three":3,
-    "four":4,
-    "five":5,
-    "six":6,
-    "seven":7,
-    "eight":8,
-    "nine":9,
-} 
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+}
+
 
 class Tree:
     # Node = collections.namedtuple("Node", ["key", "paths"])
-    
+
     # def __init__(self, strings): ##TODO with nodes
     #     # "one" to {"o": {"n": "e":{}}}
     #     self.tree = Tree.Node(key="root", paths=[])
@@ -59,7 +63,7 @@ class Tree:
                 current_node[char] = current_node[char] if char in current_node else {}
                 current_node = current_node[char]
         return tree
-    
+
     def __init__(self, strings):
         self.tree = self.build(strings)
         self.max_lookup_distance = len(max(strings, key=len))
@@ -81,9 +85,9 @@ class Tree:
                     return path
             except KeyError:
                 return False
-            
+
         return False
-    
+
 
 class Map:
     def build_map(self, input):
@@ -99,7 +103,7 @@ class Map:
             y += 1
 
         return map
-    
+
     def __init__(self, input):
         self.map = self.build_map(input)
 
