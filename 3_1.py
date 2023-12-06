@@ -16,7 +16,7 @@ def check_symbol_is_around(map, x_start, x_end, y):
             
     for x in {x_start - 1, x_end + 1}:
         try:
-            char = map[y][x]
+            char = map[y][x]    
             if char not in one_to_nine and char != ".":
                 return True
         except KeyError:

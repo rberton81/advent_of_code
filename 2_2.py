@@ -6,7 +6,6 @@ input = read_input("./2_input.txt")
 def check_games(input, config):
     game_cubes_sum = 0
     for string in input:
-        print('string', string)
         max_colors = {
             "red": 0,
             "green": 0,
