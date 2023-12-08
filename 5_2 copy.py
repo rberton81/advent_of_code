@@ -24,8 +24,8 @@ def process_seeds(seeds, mappings):
     for mapping in mappings:
         for destination, source, _range in mapping:
             left_bound, right_bound = (source, source + _range)
-            seed_is_mapped = np.logical_and(left_bound <= before, before < right_bound)
-            after[seed_is_mapped] += (destination - source)
+            seed_is_affected = np.logical_and(left_bound <= before, before < right_bound)
+            after[seed_is_affected] += (destination - source)
         before = np.copy(after)
 
     return np.min(after)
