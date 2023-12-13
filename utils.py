@@ -1,4 +1,5 @@
 import collections
+import math
 
 
 class Directions:
@@ -115,3 +116,10 @@ class Map:
         for x, y__char in self.map.items():
             print(" ".join(y__char.values()))
         return ""
+
+
+def lcm_of_list(numbers):
+    lcm_result = 1
+    for number in numbers:
+        lcm_result = lcm_result * number // math.gcd(lcm_result, number)
+    return lcm_result
