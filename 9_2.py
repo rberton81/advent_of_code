@@ -29,8 +29,8 @@ def get_solution(input):
 
         while all_differences:
             last_array = all_differences.pop()
-            old_second_element = int(last_array[0])
-            new_first_element = old_second_element - previous_new_element
+            old_first_element = int(last_array[0])
+            new_first_element = old_first_element - previous_new_element
             previous_new_element = new_first_element
 
         total_sum += new_first_element
