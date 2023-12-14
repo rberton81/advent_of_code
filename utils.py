@@ -123,3 +123,9 @@ def lcm_of_list(numbers):
     for number in numbers:
         lcm_result = lcm_result * number // math.gcd(lcm_result, number)
     return lcm_result
+
+
+def print_map(map):
+    for y in range(len(map)):
+        chars = [node["char"] for node in map[y].values()]
+        print("".join(chars))
