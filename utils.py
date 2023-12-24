@@ -129,3 +129,11 @@ def print_map(map):
     for y in range(len(map)):
         chars = [node["char"] for node in map[y].values()]
         print("".join(chars))
+
+
+def get_lists_diff_count(list_1, list_2):
+    diff_count = 0
+    for elem_1, elem_2 in zip(list_1, list_2):
+        if elem_1 != elem_2:
+            diff_count += 1
+    return diff_count
