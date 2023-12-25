@@ -4,6 +4,7 @@ import os
 example_solution = 64
 problem_id = os.path.basename(__file__).split(".")[0].split("_")[0]
 
+
 def read_input(path, by_line=True, in_one_line=False):
     with open(path) as file:
         lines = file.readlines()
@@ -18,7 +19,7 @@ def get_baby(input):
     columns = []
     y = 0
 
-    for _ in range(len(input[0])):    
+    for _ in range(len(input[0])):
         columns.append([])
 
     for line in input:
@@ -30,12 +31,13 @@ def get_baby(input):
 
     return columns
 
+
 def spin_me_baby(direction, arrays):
     current_weight = 0
     for array in arrays:
         rocks_to_move = 0
         last_rock_y = 0
-    
+
         for idx in range(len(array)):
             char = array[idx]
             if char == "#":
@@ -49,7 +51,7 @@ def spin_me_baby(direction, arrays):
             elif char == "O":
                 array[idx] = "."
                 rocks_to_move += 1
-        
+
         if rocks_to_move:
             for i in range(rocks_to_move):
                 array[last_rock_y + i] = "O"
@@ -64,7 +66,7 @@ def spin_me_baby(direction, arrays):
         arrays.reverse()
 
     transposed = [list(transposed) for transposed in zip(*arrays)]
-    
+
     if direction in ["W", "E"]:
         for array in transposed:
             array.reverse()
@@ -82,17 +84,18 @@ def print_baby(baby, direction):
             for y in range(len(baby)):
                 col.append(baby[y][x])
             print(col)
-    elif direction =="N":
+    elif direction == "N":
         for array in baby:
             print(array)
-    elif direction =="W":
-        for y in range(len(baby)-1,-1,-1):
+    elif direction == "W":
+        for y in range(len(baby) - 1, -1, -1):
             array = baby[y]
             print([array[y] for array in baby])
     elif direction == "S":
         for y in range(len(baby)):
             array = baby[y]
-            print([array[i] for i in range(len(array)-1, 0, -1)])
+            print([array[i] for i in range(len(array) - 1, 0, -1)])
+
 
 def get_weight(baby):
     weight = 0
@@ -105,16 +108,21 @@ def get_weight(baby):
 
     return weight
 
+
 def find_repeating_sequence(array, min_length=4):
     sequence_length = min_length
     max_length = len(array) // 2
 
     while sequence_length <= max_length:
         for i in range(len(array) - 2 * sequence_length + 1):
-            if array[i:i + sequence_length] == array[i + sequence_length:i + 2 * sequence_length]:
-                return array[i:i + sequence_length]
+            if (
+                array[i : i + sequence_length]
+                == array[i + sequence_length : i + 2 * sequence_length]
+            ):
+                return array[i : i + sequence_length]
         sequence_length += 1
     return None
+
 
 def get_solution(input):
     baby = get_baby(input)
@@ -124,7 +132,7 @@ def get_solution(input):
     for cycle in range(max_cycles):
         for direction in ["N", "W", "S", "E"]:
             baby, weight = spin_me_baby(direction, baby)
-        
+
         weight = get_weight(baby)
         weights.append(weight)
 
@@ -137,7 +145,7 @@ def get_solution(input):
                         is_solution = True
                         for i in range(len(sequence)):
                             print(f"i {i}")
-                            if weights[idx+i] != sequence[i]:
+                            if weights[idx + i] != sequence[i]:
                                 is_solution = False
                                 break
                         if is_solution:
@@ -147,7 +155,7 @@ def get_solution(input):
             def get_final_weight(max_cycles):
                 cycles_in_loop = max_cycles - buffer
                 modulo = cycles_in_loop % (len(sequence))
-                answer = sequence[modulo-1]
+                answer = sequence[modulo - 1]
                 return answer
 
             solution = get_final_weight(max_cycles)
@@ -156,8 +164,9 @@ def get_solution(input):
     total_weight = 0
     return total_weight
 
+
 example = read_input(f"{problem_id}_example.txt")
-assert(get_solution(example) == example_solution)
+assert get_solution(example) == example_solution
 
 input = read_input(f"{problem_id}_input.txt")
 solution = get_solution(input)

@@ -5,6 +5,7 @@ from utils import read_input
 example_solution = 374
 problem_id = os.path.basename(__file__).split(".")[0].split("_")[0]
 
+
 def get_empty_rows(input):
     empty_rows = []
     max_y = len(input)
@@ -16,10 +17,11 @@ def get_empty_rows(input):
             char = input[y][x]
             if char == "#":
                 row_is_empty = False
-        if row_is_empty :
+        if row_is_empty:
             empty_rows.append(y)
-    
+
     return empty_rows
+
 
 def get_empty_columns(input):
     empty_columns = []
@@ -32,17 +34,18 @@ def get_empty_columns(input):
             char = input[y][x]
             if char == "#":
                 column_is_empty = False
-        if column_is_empty :
+        if column_is_empty:
             empty_columns.append(x)
-    
+
     return empty_columns
+
 
 def get_solution(input):
     empty_rows = get_empty_rows(input)
     empty_row_count = 0
     empty_columns = get_empty_columns(input)
     empty_column_count = 0
-    
+
     planet_coordinates = []
 
     for y, line in enumerate(input):
@@ -54,22 +57,23 @@ def get_solution(input):
             if x in empty_columns:
                 empty_column_count += 1
             if char == "#":
-                planet_coordinates.append((x+empty_column_count,y+empty_row_count))
+                planet_coordinates.append((x + empty_column_count, y + empty_row_count))
 
     total_distance = 0
 
     for current in range(len(planet_coordinates)):
         current_x, current_y = planet_coordinates[current]
-        for other in range(current+1, len(planet_coordinates)):
+        for other in range(current + 1, len(planet_coordinates)):
             other_x, other_y = planet_coordinates[other]
             delta_x = abs(other_x - current_x)
             delta_y = abs(other_y - current_y)
             total_distance += delta_x + delta_y
-    
+
     return total_distance
 
+
 example = read_input(f"{problem_id}_example.txt")
-assert(get_solution(example) == example_solution)
+assert get_solution(example) == example_solution
 
 input = read_input(f"{problem_id}_input.txt")
 solution = get_solution(input)

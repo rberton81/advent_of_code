@@ -14,6 +14,7 @@ def main(problem_id):
         dest_path = os.path.join(dest_dir, file.replace("template", problem_id))
         shutil.copy2(src_path, dest_path)
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--problem-id")

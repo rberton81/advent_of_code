@@ -8,30 +8,31 @@ from utils import read_input
 # J -> LU
 # 7 -> DL
 
+
 def identify_start(x__y, map):
     x, y = x__y
     connections = []
     try:
-        if map[y+1][x] in ["|", "F", "L"]:
+        if map[y + 1][x] in ["|", "F", "L"]:
             connections.append("D")
     except KeyError:
         pass
     try:
-        if map[y][x-1] in ["-", "L", "F"]:
+        if map[y][x - 1] in ["-", "L", "F"]:
             connections.append("L")
     except KeyError:
         pass
     try:
-        if map[y][x+1] in ["-", "7", "J"]:
+        if map[y][x + 1] in ["-", "7", "J"]:
             connections.append("R")
     except KeyError:
         pass
     try:
-        if map[y-1][x] in ["|", "7", "J"]:
+        if map[y - 1][x] in ["|", "7", "J"]:
             connections.append("U")
     except KeyError:
         pass
-    
+
     connections.sort()
 
     if connections == ["D", "R"]:
@@ -46,7 +47,7 @@ def identify_start(x__y, map):
         return "J"
     elif connections == ["D", "L"]:
         return "7"
-    
+
 
 class Node:
     def __init__(self, x__y, map):
@@ -58,18 +59,18 @@ class Node:
             self.char = identify_start(x__y, map)
 
         if self.char == "F":
-            x__ys = [(self.x+1, self.y), (self.x, self.y+1)]
+            x__ys = [(self.x + 1, self.y), (self.x, self.y + 1)]
         elif self.char == "|":
-            x__ys = [(self.x, self.y-1), (self.x, self.y+1)]
+            x__ys = [(self.x, self.y - 1), (self.x, self.y + 1)]
         elif self.char == "L":
-            x__ys = [(self.x, self.y-1), (self.x+1, self.y)]
+            x__ys = [(self.x, self.y - 1), (self.x + 1, self.y)]
         elif self.char == "-":
-            x__ys = [(self.x-1, self.y), (self.x+1, self.y)]
+            x__ys = [(self.x - 1, self.y), (self.x + 1, self.y)]
         elif self.char == "J":
-            x__ys = [(self.x-1, self.y), (self.x, self.y-1)]
+            x__ys = [(self.x - 1, self.y), (self.x, self.y - 1)]
         elif self.char == "7":
-            x__ys = [(self.x-1, self.y), (self.x, self.y+1)]
-        
+            x__ys = [(self.x - 1, self.y), (self.x, self.y + 1)]
+
         self.neighbors = x__ys
 
 
@@ -90,6 +91,7 @@ def to_graph(input):
     root = Node(start__x__y, map)
     return root, map
 
+
 def bfs(root, map):
     visited = set()
     queue = collections.deque([(root, 0)])
@@ -101,17 +103,19 @@ def bfs(root, map):
             max_distance = max(max_distance, distance)
             visited.add((node.x, node.y))
             for neighbor_x__y in node.neighbors:
-                queue.append((Node(neighbor_x__y, map), distance+1))
-    
+                queue.append((Node(neighbor_x__y, map), distance + 1))
+
     return max_distance
+
 
 def get_solution(input):
     graph_root, map = to_graph(input)
     max_distance = bfs(graph_root, map)
     return max_distance
 
+
 example = read_input("10_example.txt")
-assert (get_solution(example) == 8)
+assert get_solution(example) == 8
 
 input = read_input("10_input.txt")
 print("solution", get_solution(input))
