@@ -112,7 +112,7 @@ class Map:
     def __init__(self, input):
         self.map = self.build_map(input)
 
-    def show_map(self):
+    def print(self):
         for x, y__char in self.map.items():
             print(" ".join(y__char.values()))
         return ""
