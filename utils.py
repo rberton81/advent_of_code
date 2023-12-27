@@ -5,6 +5,8 @@ import math
 class Directions:
     LEFT = "left"
     RIGHT = "right"
+    UP = "up"
+    DOWN = "down"
 
 
 STRING_TO_DIGIT = {
