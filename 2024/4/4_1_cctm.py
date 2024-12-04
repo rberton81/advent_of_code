@@ -1,9 +1,9 @@
 import re
 from utils.utils import read_input
 
-XMAS_REGEX = r'XMAS'
-SAMX_REGEX = r'SAMX'
 XMAS = "XMAS"
+XMAS_REGEX = rf'{XMAS}'
+SAMX_REGEX = rf'{XMAS[::-1]}'
 
 def transpose(list_of_lists):
     return list(map(list, zip(*list_of_lists)))
@@ -30,7 +30,7 @@ def match_diagonal_xmas_from_x(rows, x, y):
     for x_direction in (-1, 1):
         for y_direction in (-1, 1):
             offset = 1
-            maybe_xmas = "X"
+            maybe_xmas = XMAS[0]
             while maybe_xmas in XMAS[:-1]:
                 new_x = x+x_direction*offset
                 new_y = y+y_direction*offset
@@ -47,7 +47,7 @@ def find_diagonal_matches(rows):
     matches = 0
     for y, row in enumerate(rows):
         for x, char in enumerate(row):
-            if char == "X":
+            if char == XMAS[0]:
                 matches += match_diagonal_xmas_from_x(rows, x, y)
     return matches
         
