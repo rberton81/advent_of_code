@@ -8,14 +8,14 @@ XMAS = "XMAS"
 def transpose(list_of_lists):
     return list(map(list, zip(*list_of_lists)))
 
-def find_horizontal_matches(columns):
+def find_vertical_matches(columns):
     matches = 0
     for column in columns:
         matches += len(re.findall(XMAS_REGEX, "".join(column)))
         matches += len(re.findall(SAMX_REGEX, "".join(column)))
     return matches
 
-def find_vertical_matches(rows):
+def find_horizontal_matches(rows):
     matches = 0
     for row in rows:
         matches += len(re.findall(XMAS_REGEX, "".join(row)))
@@ -57,7 +57,7 @@ def get_xmas_count(input):
     for line in read_input(input):
         rows.append([char for char in line])
 
-    matches = find_horizontal_matches(rows) + find_vertical_matches(transpose(rows)) + find_diagonal_matches(rows)
+    matches = find_horizontal_matches(rows) + find_horizontal_matches(transpose(rows)) + find_diagonal_matches(rows)
 
     print(matches)
     return matches
