@@ -31,13 +31,13 @@ def match_diagonal_xmas_from_x(rows, x, y):
         for y_direction in (-1, 1):
             offset = 1
             maybe_xmas = "X"
-            while maybe_xmas in "XMA":
+            while maybe_xmas in XMAS[:-1]:
                 new_x = x+x_direction*offset
                 new_y = y+y_direction*offset
                 if not_out_of_bounds(new_x, new_y, rows):
                     maybe_xmas += rows[new_y][new_x]
                 else:
-                    maybe_xmas = "NOT_XMAS!"
+                    maybe_xmas = f"NOT {XMAS}!"
                 offset += 1
             if maybe_xmas == XMAS:
                 matches += 1
