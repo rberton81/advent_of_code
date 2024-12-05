@@ -2,6 +2,7 @@ import collections
 import math
 
 
+
 class Directions:
     LEFT = "left"
     RIGHT = "right"
@@ -139,3 +140,20 @@ def get_lists_diff_count(list_1, list_2):
         if elem_1 != elem_2:
             diff_count += 1
     return diff_count
+
+class DirectedGraph:
+    def __init__(self):
+        self.graph = {}
+
+    def add_edge(self, from_vertex, to_vertex):
+        if from_vertex not in self.graph:
+            self.graph[from_vertex] = []
+        self.graph[from_vertex].append(to_vertex)
+
+    def display(self):
+        for vertex in self.graph:
+            print(f"{vertex} -> {', '.join(map(str, self.graph[vertex]))}")
+
+def get_middle_element(list):
+    middle_index = len(list) // 2
+    return list[middle_index]
