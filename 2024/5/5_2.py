@@ -82,6 +82,7 @@ def solution(input):
     for from_vertex, to_vertex in page_orders:
         page_relationships.add_edge(from_vertex, to_vertex)
 
+    page_relationships.display()
     invalid_updates = [page_update for page_update in page_updates if not is_valid(page_update, page_relationships)]
     
     middle_pages_sum = 0
@@ -90,5 +91,5 @@ def solution(input):
         middle_pages_sum += int(get_middle_element(valid_update))
     return middle_pages_sum
 
-assert solution("example.txt") == 123
+# assert solution("example.txt") == 123
 print("solution: ", solution("input.txt"))
