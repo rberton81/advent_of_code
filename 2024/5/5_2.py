@@ -1,6 +1,7 @@
 from collections import deque
 from utils.utils import DirectedGraph, get_middle_element, read_input
 
+
 def is_valid(page_update, page_relationships: DirectedGraph):
     previous_page = None
     for page in page_update:
@@ -14,6 +15,7 @@ def is_valid(page_update, page_relationships: DirectedGraph):
             return False
         previous_page = page
     return True
+
 
 def get_misplaced_pages__valid_sequence(page_update, page_relationships: DirectedGraph):
     misplaced_pages = deque()
@@ -31,7 +33,7 @@ def get_misplaced_pages__valid_sequence(page_update, page_relationships: Directe
         if not previous_page:
             previous_page = page
             continue
-        
+
         try:
             if page not in page_relationships.graph[previous_page]:
                 misplaced_pages.append(page)
@@ -40,20 +42,23 @@ def get_misplaced_pages__valid_sequence(page_update, page_relationships: Directe
         except KeyError:
             misplaced_pages.append(previous_page)
             valid_sequence.remove(previous_page)
-            
+
             if previous_page == page_update[0]:
                 previous_page = None
-            else: 
+            else:
                 replay = True
-                previous_page = valid_sequence[valid_sequence.index(page)-1]
+                previous_page = valid_sequence[valid_sequence.index(page) - 1]
             continue
 
         previous_page = page
-    
+
     return misplaced_pages, valid_sequence
 
+
 def make_valid(misordered_pages, page_relationships: DirectedGraph):
-    misplaced_pages, valid_sequence = get_misplaced_pages__valid_sequence(misordered_pages, page_relationships)
+    misplaced_pages, valid_sequence = get_misplaced_pages__valid_sequence(
+        misordered_pages, page_relationships
+    )
 
     while misplaced_pages:
         misplaced_page = misplaced_pages.popleft()
@@ -65,8 +70,9 @@ def make_valid(misordered_pages, page_relationships: DirectedGraph):
             except KeyError:
                 valid_sequence.append(misplaced_page)
                 break
-    
+
     return valid_sequence
+
 
 def solution(input):
     page_orders = []
@@ -83,13 +89,18 @@ def solution(input):
         page_relationships.add_edge(from_vertex, to_vertex)
 
     page_relationships.display()
-    invalid_updates = [page_update for page_update in page_updates if not is_valid(page_update, page_relationships)]
-    
+    invalid_updates = [
+        page_update
+        for page_update in page_updates
+        if not is_valid(page_update, page_relationships)
+    ]
+
     middle_pages_sum = 0
     for invalid_update in invalid_updates:
         valid_update = make_valid(invalid_update, page_relationships)
         middle_pages_sum += int(get_middle_element(valid_update))
     return middle_pages_sum
+
 
 # assert solution("example.txt") == 123
 print("solution: ", solution("input.txt"))

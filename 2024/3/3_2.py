@@ -4,6 +4,7 @@ from utils.utils import read_input
 DO = "do()"
 DONT = "don't()"
 
+
 def get_mul_total(input):
     instruction_regex = r"mul\(\d{1,3},\d{1,3}\)|do\(\)|don't\(\)"
     numbers_regex = "\d{1,3}"
@@ -28,5 +29,3 @@ def get_mul_total(input):
 
 assert get_mul_total("example_2.txt") == 48
 print("solution: ", get_mul_total("input.txt"))
-
-

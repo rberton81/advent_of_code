@@ -1,5 +1,6 @@
 from utils.utils import read_input
 
+
 def get_solution(input):
     left_numbers = []
     right_numbers = []
@@ -19,7 +20,6 @@ def get_solution(input):
             diff += abs(left - right)
     return diff
 
+
 assert get_solution("example.txt") == 11
 print("solution: ", get_solution("input.txt"))
-
-

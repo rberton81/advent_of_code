@@ -1,9 +1,11 @@
 import collections
 from utils.utils import read_input
 
+
 class MapChars:
     DOT = "."
     WALL = "#"
+
 
 class GuardedMap:
     class MapCell:
@@ -18,9 +20,16 @@ class GuardedMap:
         for y, line in enumerate(input):
             map[y] = collections.defaultdict()
             for x, char in enumerate(line):
-                if char in [Guard.Directions.UP, Guard.Directions.DOWN, Guard.Directions.LEFT, Guard.Directions.RIGHT]:
+                if char in [
+                    Guard.Directions.UP,
+                    Guard.Directions.DOWN,
+                    Guard.Directions.LEFT,
+                    Guard.Directions.RIGHT,
+                ]:
                     guard = Guard((x, y), char)
-                    map[y][x] = GuardedMap.MapCell((x, y), MapChars.DOT, was_visited=True)
+                    map[y][x] = GuardedMap.MapCell(
+                        (x, y), MapChars.DOT, was_visited=True
+                    )
                 else:
                     map[y][x] = GuardedMap.MapCell((x, y), char)
         return map, guard
@@ -39,7 +48,7 @@ class GuardedMap:
                     row.append(cell.char)
             print(" ".join(row))
         return ""
-    
+
     def get_char_in_front_of_guard(self):
         if self.guard.direction == Guard.Directions.UP:
             x, y = (self.guard.position[0], self.guard.position[1] - 1)
@@ -49,9 +58,8 @@ class GuardedMap:
             x, y = (self.guard.position[0] - 1, self.guard.position[1])
         elif self.guard.direction == Guard.Directions.RIGHT:
             x, y = (self.guard.position[0] + 1, self.guard.position[1])
-        
-        return self.map[y][x], (x, y)
 
+        return self.map[y][x], (x, y)
 
     def move_guard(self):
         visited_cells = 1
@@ -67,8 +75,9 @@ class GuardedMap:
                     self.guard.go_to(pos)
             except KeyError:
                 break
-            
+
         return visited_cells
+
 
 class Guard:
     class Directions:
@@ -87,13 +96,17 @@ class Guard:
         self.position = position
 
     def turn_right(self):
-        new_direction_idx = (Guard.Directions.CLOCKWISE.index(self.direction) + 1) % len(Guard.Directions.CLOCKWISE)
+        new_direction_idx = (
+            Guard.Directions.CLOCKWISE.index(self.direction) + 1
+        ) % len(Guard.Directions.CLOCKWISE)
         self.direction = Guard.Directions.CLOCKWISE[new_direction_idx]
-    
+
+
 def solution(input):
     map = GuardedMap(read_input(input))
     visited_cells = map.move_guard()
     return visited_cells
+
 
 assert solution("example.txt") == 41
 print("solution: ", solution("input.txt"))

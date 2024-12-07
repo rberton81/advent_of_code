@@ -1,5 +1,6 @@
 from utils.utils import DirectedGraph, read_input
 
+
 def is_valid(page_update, page_relationships: DirectedGraph):
     previous_page = None
     for page in page_update:
@@ -14,9 +15,11 @@ def is_valid(page_update, page_relationships: DirectedGraph):
         previous_page = page
     return True
 
+
 def get_middle_element(page_update):
     middle_index = len(page_update) // 2
     return page_update[middle_index]
+
 
 def solution(input):
     page_orders = []
