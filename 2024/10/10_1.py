@@ -1,5 +1,4 @@
 import collections
-import itertools
 from utils.utils import read_input
 
 class Map:
