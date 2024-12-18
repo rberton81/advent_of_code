@@ -3,6 +3,7 @@ from utils.utils import read_input
 
 DEBUG_CHAR = "A"
 
+
 class Map:
     class Directions:
         VERTICAL = "V"
@@ -20,7 +21,7 @@ class Map:
 
         def __repr__(self):
             return f"{self.pos} -> {self.char} / sides: {self.sides}"
-        
+
     def get(self, x, y):
         if x < 0 or y < 0:
             return None
@@ -28,7 +29,7 @@ class Map:
             return self.map[y][x]
         except KeyError:
             return None
-        
+
     def get_cells(self):
         for x__cell in self.map.values():
             for cell in x__cell.values():
@@ -40,26 +41,27 @@ class Map:
             neighbor.was_visited = True
             area += 1
             side_count += self.set_sides_and_get_unique_count(neighbor)
-            area, side_count = self.get_area_and_side_count(neighbor, area=area, side_count=side_count)
+            area, side_count = self.get_area_and_side_count(
+                neighbor, area=area, side_count=side_count
+            )
         return area, side_count
 
     def get_area_and_side_count(self, cell: Cell, area, side_count):
         x, y = cell.pos
 
-        area, side_count = self.visit_neighbors(cell, x, y+1, area, side_count) 
-        area, side_count = self.visit_neighbors(cell, x-1, y, area, side_count) 
-        area, side_count = self.visit_neighbors(cell, x, y-1, area, side_count) 
-        area, side_count = self.visit_neighbors(cell, x+1, y, area, side_count) 
+        area, side_count = self.visit_neighbors(cell, x, y + 1, area, side_count)
+        area, side_count = self.visit_neighbors(cell, x - 1, y, area, side_count)
+        area, side_count = self.visit_neighbors(cell, x, y - 1, area, side_count)
+        area, side_count = self.visit_neighbors(cell, x + 1, y, area, side_count)
 
-        print('returning', area, side_count)
+        print("returning", area, side_count)
         # import pdb; pdb.set_trace()
         return area, side_count
-
 
     def look_for_unique_sides(self, cell, x, y, direction):
         neighbor = self.get(x, y)
         if cell.char == DEBUG_CHAR:
-            print(f'__ other in dir {direction}, pos {x, y} is {neighbor}')
+            print(f"__ other in dir {direction}, pos {x, y} is {neighbor}")
 
         if not neighbor or neighbor.char != cell.char:
             cell.sides.add((x, y))
@@ -78,33 +80,46 @@ class Map:
                 side_neighbor = self.get(_x, _y)
 
                 if cell.char == DEBUG_CHAR:
-                    print('looking at neighbor', side_neighbor)
-                
+                    print("looking at neighbor", side_neighbor)
+
                 if side_neighbor and side_neighbor.char == cell.char:
-                    print(f"is {(x_side, y_side)} in sides?", (x_side, y_side) in side_neighbor.sides)
+                    print(
+                        f"is {(x_side, y_side)} in sides?",
+                        (x_side, y_side) in side_neighbor.sides,
+                    )
                     if (x_side, y_side) in side_neighbor.sides:
                         side_is_unique = False
             if side_is_unique:
-                print('**** added a unique side')
-                import pdb; pdb.set_trace()
+                print("**** added a unique side")
+                import pdb
+
+                pdb.set_trace()
                 return 1
         return 0
 
-    def set_sides_and_get_unique_count(self, cell:Cell):
+    def set_sides_and_get_unique_count(self, cell: Cell):
         x, y = cell.pos
         unique_sides = 0
-        print(f'+++++ LOOKING AT {x,y}')
+        print(f"+++++ LOOKING AT {x,y}")
         unique_sides += (
-            self.look_for_unique_sides(cell, x, y+1, direction=self.Directions.HORIZONTAL) 
-            + self.look_for_unique_sides(cell, x-1, y, direction=self.Directions.VERTICAL) 
-            + self.look_for_unique_sides(cell, x, y-1, direction=self.Directions.HORIZONTAL) 
-            + self.look_for_unique_sides(cell, x+1, y, direction=self.Directions.VERTICAL)
+            self.look_for_unique_sides(
+                cell, x, y + 1, direction=self.Directions.HORIZONTAL
+            )
+            + self.look_for_unique_sides(
+                cell, x - 1, y, direction=self.Directions.VERTICAL
+            )
+            + self.look_for_unique_sides(
+                cell, x, y - 1, direction=self.Directions.HORIZONTAL
+            )
+            + self.look_for_unique_sides(
+                cell, x + 1, y, direction=self.Directions.VERTICAL
+            )
         )
 
         # unique_sides += (
-        #     self.look_for_unique_sides(cell, x, y+1, direction=self.Directions.VERTICAL) 
-        #     + self.look_for_unique_sides(cell, x-1, y, direction=self.Directions.HORIZONTAL) 
-        #     + self.look_for_unique_sides(cell, x, y-1, direction=self.Directions.VERTICAL) 
+        #     self.look_for_unique_sides(cell, x, y+1, direction=self.Directions.VERTICAL)
+        #     + self.look_for_unique_sides(cell, x-1, y, direction=self.Directions.HORIZONTAL)
+        #     + self.look_for_unique_sides(cell, x, y-1, direction=self.Directions.VERTICAL)
         #     + self.look_for_unique_sides(cell, x+1, y, direction=self.Directions.HORIZONTAL)
         # )
 
@@ -113,7 +128,6 @@ class Map:
         #     import pdb; pdb.set_trace()
 
         return unique_sides
-    
 
     # def set_sides_and_get_unique_count(self, cell:Cell):
     #     x, y = cell.pos
@@ -144,7 +158,7 @@ class Map:
     #                 unique_sides += 1
 
     #         x_other = x + offset
-    #         horizontal = self.get(x_other, y)  
+    #         horizontal = self.get(x_other, y)
     #         if cell.char == DEBUG_CHAR:
     #             print('__ other is', horizontal)
 
@@ -162,7 +176,7 @@ class Map:
     #             if side_is_unique:
     #                 print(' **** added a unique vertical side')
     #                 import pdb; pdb.set_trace()
-    #                 unique_sides += 1 
+    #                 unique_sides += 1
 
     #     # if cell.char == DEBUG_CHAR:
     #     #     print('after')
@@ -179,7 +193,7 @@ class Map:
     #             cell.sides.add((x, y_other))
 
     #         x_other = x + offset
-    #         horizontal = self.get(x_other, y)  
+    #         horizontal = self.get(x_other, y)
     #         if not horizontal or horizontal.char != cell.char:
     #             cell.sides.add((x_other, y))
 
@@ -190,7 +204,7 @@ class Map:
             for x, char in enumerate(line):
                 map[y][x] = Map.Cell((x, y), char)
         return map
-    
+
     def print(self):
         for y, x__cell in self.map.items():
             row = []
@@ -199,9 +213,10 @@ class Map:
             print(" ".join(row))
         return ""
 
+
 def solution(input):
     total_price = 0
-    
+
     map = Map(read_input(input))
 
     for y, x__cell in map.map.items():
@@ -210,17 +225,19 @@ def solution(input):
             if cell.was_visited:
                 continue
             cell.was_visited = True
-            area, side_count = map.get_area_and_side_count(cell, area=1, side_count=map.set_sides_and_get_unique_count(cell))
-            print(f'area, sides: {area}, {side_count}')
+            area, side_count = map.get_area_and_side_count(
+                cell, area=1, side_count=map.set_sides_and_get_unique_count(cell)
+            )
+            print(f"area, sides: {area}, {side_count}")
             plant_price = area * side_count
-            print(f'contributing: {plant_price}')
+            print(f"contributing: {plant_price}")
             total_price += plant_price
             previous_plant = cell.char
 
-
-    print('total_price', total_price)
+    print("total_price", total_price)
     return total_price
-    
+
+
 # assert solution("example.txt") == 1206
 # assert solution("example_2.txt") == 436
 # assert solution("example_3.txt") == 236

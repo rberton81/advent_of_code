@@ -1,6 +1,7 @@
 import collections
 from utils.utils import read_input
 
+
 class Map:
     def __init__(self, lines):
         self.map = self.build_map(lines)
@@ -23,23 +24,27 @@ class Map:
                     vertical.was_visited = True
                     area += 1
                     perimeter += self.get_cell_perimeter(vertical)
-                    area, perimeter = self.get_area_and_perimeter(vertical, area=area, perimeter=perimeter)
+                    area, perimeter = self.get_area_and_perimeter(
+                        vertical, area=area, perimeter=perimeter
+                    )
             except KeyError:
                 pass
-            
+
             try:
                 horizontal = self.map[y][x + offset]
                 if not horizontal.was_visited and horizontal.char == cell.char:
                     horizontal.was_visited = True
                     area += 1
                     perimeter += self.get_cell_perimeter(horizontal)
-                    area, perimeter = self.get_area_and_perimeter(horizontal, area=area, perimeter=perimeter)
+                    area, perimeter = self.get_area_and_perimeter(
+                        horizontal, area=area, perimeter=perimeter
+                    )
             except KeyError:
                 pass
-        
+
         return area, perimeter
 
-    def get_cell_perimeter(self, cell:Cell):
+    def get_cell_perimeter(self, cell: Cell):
         perimeter = 4
         x, y = cell.pos
 
@@ -50,7 +55,7 @@ class Map:
                     perimeter -= 1
             except KeyError:
                 pass
-                
+
             try:
                 horizontal = self.map[y][x + offset]
                 if horizontal.char == cell.char:
@@ -68,9 +73,10 @@ class Map:
                 map[y][x] = Map.Cell((x, y), char)
         return map
 
+
 def solution(input):
     total_price = 0
-    
+
     map = Map(read_input(input))
 
     for x__cell in map.map.values():
@@ -78,11 +84,14 @@ def solution(input):
             if cell.was_visited:
                 continue
             cell.was_visited = True
-            area, perimeter = map.get_area_and_perimeter(cell, area=1, perimeter=map.get_cell_perimeter(cell))
+            area, perimeter = map.get_area_and_perimeter(
+                cell, area=1, perimeter=map.get_cell_perimeter(cell)
+            )
             plant_price = area * perimeter
             total_price += plant_price
 
     return total_price
-    
+
+
 _solution = solution("input.txt")
 print("solution: ", _solution)

@@ -6,6 +6,7 @@ DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
 
+
 class Map:
     def __init__(self, lines):
         self.map, self.zeroes = self.build_map(lines)
@@ -29,7 +30,7 @@ class Map:
                     zeroes.add((x, y))
                 map[y][x] = Map.Cell((x, y), char)
         return map, zeroes
-    
+
     def print(self):
         for y, x__cell in self.map.items():
             row = []
@@ -37,6 +38,7 @@ class Map:
                 row.append(cell.char)
             print(" ".join(row))
         return ""
+
 
 class Trail:
     def __init__(self, position, elevation):
@@ -48,7 +50,7 @@ class Trail:
 
 
 def solution(input):
-    map = Map(read_input(input))    
+    map = Map(read_input(input))
     map.print()
 
     total_rating = 0
@@ -68,7 +70,7 @@ def solution(input):
                         elevation = int(trail_cell.char)
                     except ValueError:
                         continue
-                    
+
                     if trail.elevation == 8 and elevation == 9:
                         if trail_continues:
                             trail_rating += 1
@@ -84,7 +86,8 @@ def solution(input):
                 trail_rating -= 1
         total_rating += trail_rating
     return total_rating
-    
+
+
 assert solution("example_1.txt") == 3
 assert solution("example_2.txt") == 13
 assert solution("example_3.txt") == 227

@@ -1,6 +1,7 @@
 import collections
 from utils.utils import read_input
 
+
 class Map:
     def __init__(self, lines):
         self.map, self.zeroes = self.build_map(lines)
@@ -24,7 +25,7 @@ class Map:
                     zeroes.add((x, y))
                 map[y][x] = Map.Cell((x, y), char)
         return map, zeroes
-    
+
     def print(self):
         for y, x__cell in self.map.items():
             row = []
@@ -32,6 +33,7 @@ class Map:
                 row.append(cell.char)
             print(" ".join(row))
         return ""
+
 
 class Trail:
     def __init__(self, position, elevation):
@@ -41,8 +43,9 @@ class Trail:
     def __repr__(self):
         return f"Trail({self.position} -> {self.elevation})"
 
+
 def solution(input):
-    map = Map(read_input(input))    
+    map = Map(read_input(input))
     map.print()
 
     topping_trailheads = 0
@@ -50,12 +53,12 @@ def solution(input):
         trail = Trail((x_start, y_start), 0)
         trails = collections.deque([trail])
         topped_trailheads = set()
-            
+
         while trails:
             trail = trails.popleft()
             x, y = trail.position
-            
-            for x_offset, y_offset in [(0,1), (0,-1), (1,0), (-1,0)]:
+
+            for x_offset, y_offset in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
                 try:
                     trail_cell: Map.Cell = map.map[y + y_offset][x + x_offset]
                     elevation = int(trail_cell.char)
@@ -68,6 +71,7 @@ def solution(input):
                 except KeyError:
                     continue
     return topping_trailheads
-    
+
+
 assert solution("example.txt") == 36
 print("solution: ", solution("input.txt"))
