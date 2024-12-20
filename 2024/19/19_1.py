@@ -8,14 +8,17 @@ def can_make_design(design, towels, doable_designs, undoable_designs):
         return False
 
     for i in range(0, len(design)):
-        maybe_towel = design[:len(design)-i]
+        maybe_towel = design[: len(design) - i]
         if maybe_towel in towels:
-            if can_make_design(design[len(design)-i:], towels, doable_designs, undoable_designs):
+            if can_make_design(
+                design[len(design) - i :], towels, doable_designs, undoable_designs
+            ):
                 doable_designs.add(design)
                 return True
-            
+
     undoable_designs.add(design)
     return False
+
 
 def solution(input):
     possible_designs = 0
@@ -33,7 +36,8 @@ def solution(input):
         if can_make_design(design, towels, doable_designs, undoable_designs):
             possible_designs += 1
     return possible_designs
-    
+
+
 assert solution("example.txt") == 6
 assert solution("example_1.txt") == 1
 assert solution("example_2.txt") == 0

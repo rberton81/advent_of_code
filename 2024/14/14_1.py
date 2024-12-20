@@ -2,6 +2,7 @@ from collections import defaultdict
 import math
 from utils.utils import read_input
 
+
 class Robot:
     def __init__(self, line):
         position, velocity = line.split()
@@ -9,9 +10,10 @@ class Robot:
         velocity = tuple([int(_) for _ in velocity.split("=")[1].split(",")])
         self.position = position
         self.velocity = velocity
-    
+
     def __repr__(self):
         return f"Robot(p={self.position}, v={self.velocity})"
+
 
 def get_quadrants(x, y, x_mid, y_mid):
     if x < x_mid and y < y_mid:
@@ -22,6 +24,7 @@ def get_quadrants(x, y, x_mid, y_mid):
         return 3
     elif x > x_mid and y > y_mid:
         return 4
+
 
 def solution(input, map_dimensions):
     robots = []

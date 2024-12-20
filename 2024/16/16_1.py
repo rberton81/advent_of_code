@@ -17,19 +17,24 @@ def get_straight__left__right(direction):
     elif direction == Directions.LEFT:
         straight, left, right = (-1, 0), (0, 1), (0, -1)
     return straight, left, right
-    
+
+
 def add(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
-    return (x1+x2, y1+y2)
+    return (x1 + x2, y1 + y2)
+
 
 def turn(current_direction, rotation):
-    directions = collections.deque([Directions.UP, Directions.RIGHT, Directions.DOWN, Directions.LEFT])
+    directions = collections.deque(
+        [Directions.UP, Directions.RIGHT, Directions.DOWN, Directions.LEFT]
+    )
     if rotation == SIDES.LEFT:
         new_idx = (directions.index(current_direction) - 1 + 4) % 4
     else:
         new_idx = (directions.index(current_direction) + 1) % 4
     return directions[new_idx]
+
 
 class Directions:
     UP = "^"
@@ -37,14 +42,17 @@ class Directions:
     DOWN = "v"
     LEFT = "<"
 
+
 class SIDES:
     LEFT = "L"
     RIGHT = "R"
-    
+
+
 class Reindeer:
     def __init__(self, position, direction):
         self.position = position
         self.direction = direction
+
 
 class Map:
     def __init__(self, map):
@@ -59,10 +67,13 @@ class Map:
 
         def __repr__(self):
             return f"{self.pos}"
-        
+
         def is_current_best_path(self, previous_cell, score):
-            return not self.is_wall and (not self.path_score or self.path_score > previous_cell.path_score + score)
-        
+            return not self.is_wall and (
+                not self.path_score
+                or self.path_score > previous_cell.path_score + score
+            )
+
     @staticmethod
     def build_map(lines):
         map = collections.defaultdict()
@@ -79,7 +90,7 @@ class Map:
                         reindeer = Reindeer((x, y), Directions.RIGHT)
                     map[y][x] = Map.Cell((x, y))
         return Map(map), reindeer
-    
+
     def get(self, x, y) -> Cell:
         if x < 0 or y < 0:
             return None
@@ -88,7 +99,7 @@ class Map:
         except KeyError:
             return None
 
-    def explore_cell(self, cell:Cell, direction):
+    def explore_cell(self, cell: Cell, direction):
         straight, left, right = get_straight__left__right(direction)
         next_paths = []
 
@@ -102,14 +113,15 @@ class Map:
             cell_left.path_score = cell.path_score + 1001
             next_paths.append((cell_left, turn(direction, SIDES.LEFT)))
 
-        cell_right = self.get(*add(cell.pos,  right))
+        cell_right = self.get(*add(cell.pos, right))
         if cell_right.is_current_best_path(cell, 1001):
             cell_right.path_score = cell.path_score + 1001
             next_paths.append((cell_right, turn(direction, SIDES.RIGHT)))
         return next_paths
-        
+
+
 def solution(input):
-    lowest_path_score = float('inf')
+    lowest_path_score = float("inf")
     map, reindeer = Map.build_map(read_input(input))
 
     start_cell = map.get(*reindeer.position)
@@ -120,10 +132,11 @@ def solution(input):
         if cell.is_end:
             lowest_path_score = min(lowest_path_score, cell.path_score)
             continue
-        next_paths= map.explore_cell(cell, direction)
+        next_paths = map.explore_cell(cell, direction)
         path_queue += next_paths
-    
+
     return lowest_path_score
+
 
 assert solution("example.txt") == 7036
 assert solution("example_1.txt") == 11048

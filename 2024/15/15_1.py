@@ -6,15 +6,18 @@ CRATE = "O"
 ROBOT = "@"
 EMPTY_SPACE = "."
 
+
 class Directions:
     UP = "^"
     RIGHT = ">"
     DOWN = "v"
     LEFT = "<"
-    
+
+
 class Robot:
     def __init__(self, position):
         self.position = position
+
 
 class Map:
     def __init__(self, map):
@@ -25,7 +28,7 @@ class Map:
             self.is_wall = is_wall
             self.is_crate = is_crate
             self.pos = pos
-    
+
     @staticmethod
     def build_map(lines):
         map = collections.defaultdict()
@@ -43,7 +46,7 @@ class Map:
                     robot = Robot((x, y))
                     map[y][x] = Map.Cell((x, y))
         return Map(map), robot
-    
+
     def get(self, x, y) -> Cell:
         if x < 0 or y < 0:
             return None
@@ -57,11 +60,11 @@ class Map:
         if direction == Directions.UP:
             pos_other = (x, y - 1)
         elif direction == Directions.RIGHT:
-            pos_other = (x +1, y)
+            pos_other = (x + 1, y)
         elif direction == Directions.DOWN:
             pos_other = (x, y + 1)
         elif direction == Directions.LEFT:
-            pos_other = (x - 1, y )
+            pos_other = (x - 1, y)
 
         object = self.get(*pos_other)
         if object.is_wall:
@@ -78,7 +81,8 @@ class Map:
                 if cell.is_crate:
                     score += y * 100 + x
         return score
-    
+
+
 def solution(input):
     map_rows = []
     directions = ""
@@ -101,11 +105,11 @@ def solution(input):
         if direction == Directions.UP:
             pos_other = (x, y - 1)
         elif direction == Directions.RIGHT:
-            pos_other = (x+1, y)
+            pos_other = (x + 1, y)
         elif direction == Directions.DOWN:
             pos_other = (x, y + 1)
         elif direction == Directions.LEFT:
-            pos_other = (x-1, y)
+            pos_other = (x - 1, y)
 
         object = map.get(*pos_other)
         if object.is_wall:
@@ -119,6 +123,7 @@ def solution(input):
         else:
             robot.position = pos_other
     return map.get_score()
+
 
 # assert solution("example_1.txt") == 2028
 # assert solution("example.txt") == 10092
