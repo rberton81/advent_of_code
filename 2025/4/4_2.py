@@ -1,8 +1,8 @@
 from collections import defaultdict
 from utils.utils import read_input
 from visualization import Visualizable
-PAPER_CHAR = "@"
 
+PAPER_CHAR = "@"
 class Map(Visualizable):
     class Cell:
         def __init__(self, x, y, is_paper, parent_map):
